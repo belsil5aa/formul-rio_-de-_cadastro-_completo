@@ -25,15 +25,28 @@
             <label for="birthdate">Data de Nascimento:</label>
             <input type="date" id="birthdate" required>
 
-            <label for="address">Endereço:</label>
-            <input type="text" id="address" placeholder="Digite seu CEP" required>
+            <label for="cep">CEP:</label>
+            <input type="text" id="cep" placeholder="00000-000" required>
             <button type="button" id="fetchAddress">Buscar Endereço</button>
-            <div id="addressDetails"></div>
+            
+            <div id="addressDetails">
+                <label for="street">Rua:</label>
+                <input type="text" id="street" placeholder="Rua" required>
+                
+                <label for="number">Número:</label>
+                <input type="text" id="number" placeholder="Número" required>
+                
+                <label for="neighborhood">Bairro:</label>
+                <input type="text" id="neighborhood" placeholder="Bairro" required>
+
+                <label for="neighborhood">Complemento:</label>
+                <input type="text" id="complement" placeholder="Complemento" required>
+            </div>
 
             <button type="submit">Cadastrar</button>
         </form>
         <div id="message"></div>
     </div>
-    <script src="script.js"></script>
+    <script src="main.js"></script>
 </body>
 </html>

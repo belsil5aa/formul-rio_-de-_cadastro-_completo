@@ -21,7 +21,7 @@ document.getElementById('registrationForm').addEventListener('submit', function(
 });
 
 document.getElementById('fetchAddress').addEventListener('click', function() {
-    const cep = document.getElementById('address').value.replace(/\D/g, '');
+    const cep = document.getElementById('cep').value.replace(/\D/g, '');
     if (cep.length === 8) {
         fetch(`https://viacep.com.br/ws/${cep}/json/`)
             .then(response => response.json())
@@ -29,11 +29,8 @@ document.getElementById('fetchAddress').addEventListener('click', function() {
                 if (data.erro) {
                     displayMessage('CEP não encontrado.', 'error');
                 } else {
-                    document.getElementById('addressDetails').innerHTML = `
-                        <p>Logradouro: ${data.logradouro}</p>
-                        <p>Bairro: ${data.bairro}</p>
-                        <p>Cidade: ${data.localidade} - ${data.uf}</p>
-                    `;
+                    document.getElementById('street').value = data.logradouro;
+                    document.getElementById('neighborhood').value = data.bairro;
                 }
             })
             .catch(() => displayMessage('Erro ao buscar o CEP.', 'error'));
@@ -55,25 +52,19 @@ function validateCPF(cpf) {
     let remainder;
 
     for (let i = 1; i <= 9; i++) {
-        sum += parseInt(cpf.substring(i - 1, i)) * (11 - i);
+        sum += parseInt(cpf.charAt(i - 1)) * (11 - i);
     }
     remainder = (sum * 10) % 11;
-    if ((remainder === 10) || (remainder === 11)) {
-        remainder = 0;
-    }
-    if (remainder !== parseInt(cpf.substring(9, 10))) {
-        return false;
-    }
+    if (remainder === 10 || remainder === 11) remainder = 0;
+    if (remainder !== parseInt(cpf.charAt(9))) return false;
 
     sum = 0;
     for (let i = 1; i <= 10; i++) {
-        sum += parseInt(cpf.substring(i - 1, i)) * (12 - i);
+        sum += parseInt(cpf.charAt(i - 1)) * (12 - i);
     }
     remainder = (sum * 10) % 11;
-    if ((remainder === 10) || (remainder === 11)) {
-        remainder = 0;
-    }
-    return remainder === parseInt(cpf.substring(10, 11));
+    if (remainder === 10 || remainder === 11) remainder = 0;
+    return remainder === parseInt(cpf.charAt(10));
 }
 
 function displayMessage(message, type) {
@@ -81,3 +72,4 @@ function displayMessage(message, type) {
     messageDiv.textContent = message;
     messageDiv.className = type;
 }
+
